@@ -1505,6 +1505,50 @@
   }
 }
 
+/* 27 wobbly spinner -----------------------------------------------------------
+   Identical loading panels; only the spinner differs. Modeled on a real
+   shipping app: a thick ~300° ring whose artwork sits off-centre in its own
+   box, so rotating the box makes the whole ring orbit a small circle. The
+   offset lives in the SVG markup (cx/cy off the viewBox centre) — the CSS
+   rotation itself is identical on both sides. */
+.demo-wobbly-spinner .ld {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  text-align: center;
+}
+.demo-wobbly-spinner .spinner {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0.9rem;
+  color: var(--ink);
+  animation: demo-spin 0.9s linear infinite;
+}
+@keyframes demo-spin {
+  to { transform: rotate(360deg); }
+}
+.demo-wobbly-spinner .h {
+  margin: 0;
+  font-size: var(--step-0);
+  font-weight: 640;
+  color: var(--ink);
+}
+.demo-wobbly-spinner .s {
+  margin: 0.15rem 0 0;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+.demo-wobbly-spinner .cap {
+  margin: 0.7rem 0 0;
+  font-size: 0.72rem;
+  color: var(--ink-3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-wobbly-spinner .spinner {
+    animation: none;
+  }
+}
+
 /* 26 invented stat row -------------------------------------------------------- */
 .demo-fake-stat-trio .stats.slop {
   display: flex;

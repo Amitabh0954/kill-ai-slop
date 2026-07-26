@@ -438,6 +438,33 @@ export const demos: Record<string, { before: string; after: string }> = {
       </div>`,
   },
 
+  /* Identical loading panels; only the spinner differs. Modeled frame-by-frame
+     on a real shipping app: a thick ~300° ring rotating as a whole, but drawn
+     off-centre in its own box — the element spins around the box centre, so
+     the entire ring visibly orbits a small circle instead of turning in place.
+     before reproduces the actual bug (the circle's cx/cy sit ~10% of the
+     radius off the viewBox centre); after draws the same ring centred, over a
+     hairline track. */
+  "wobbly-spinner": {
+    before: `<div class="ld slop">
+        <svg class="spinner" viewBox="0 0 34 34" aria-hidden="true">
+          <circle cx="18.2" cy="15.9" r="14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="79.2 8.8"/>
+        </svg>
+        <p class="h">Generating your report</p>
+        <p class="s">Crunching 1,204 rows…</p>
+        <p class="cap">watch the ring — its centre is drifting</p>
+      </div>`,
+    after: `<div class="ld clean">
+        <svg class="spinner" viewBox="0 0 34 34" aria-hidden="true">
+          <circle cx="17" cy="17" r="14" fill="none" stroke="var(--rule)" stroke-width="3.5"/>
+          <circle cx="17" cy="17" r="14" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="79.2 8.8"/>
+        </svg>
+        <p class="h">Generating your report</p>
+        <p class="s">Crunching 1,204 rows…</p>
+        <p class="cap">one fixed centre; it spins in place</p>
+      </div>`,
+  },
+
   /* after: the one real, checkable number — given the stat treatment it earns
      (label, big figure, source), not demoted to a footnote. One true number set
      large beats three round ones; it doesn't have to look apologetic. */

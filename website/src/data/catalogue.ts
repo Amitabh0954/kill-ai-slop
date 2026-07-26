@@ -605,6 +605,31 @@ const rawEntries: Omit<Entry, "n">[] = [
     detect: ["hover:scale-105 / hover:-translate-y-*", "transition-all on cards and buttons", "cubic-bezier with overshoot (…, 1.5+, …) on UI", "img scale/rotate on hover"],
     demo: "springy-hover",
   },
+  {
+    id: "wobbly-spinner",
+    tier: 1,
+    group: "motion",
+    title: { zh: "圆心漂移的 spinner", en: "The wobbling spinner" },
+    what: {
+      zh: "加载指示器转起来不是绕自己的圆心：圆弧一边旋转一边在原地画小圈。弧线没画在 viewBox 正中、transform-origin 偏了，或者 keyframe 里的 rotate 把用来居中的 translate(-50%, -50%) 整个顶掉了。",
+      en: "A loading spinner that doesn't turn around its own centre: the arc wobbles, tracing a little circle as it spins — off-centre artwork, a stray transform-origin, or a rotate keyframe that clobbers the centering translate(-50%, -50%).",
+    },
+    why: {
+      zh: "spinner 只有一件事要做：绕一个固定的点原地旋转。任何人让页面跑起来，半秒钟就能看见晃动；把它发上线，等于承认从没有人看过这个界面动起来的样子。别的 tell 是品味的缺席，这个是「看」的缺席——而它恰恰出现在用户无事可做、只能盯着屏幕等的那一刻。整页最被凝视的元素在打摆子，「加载中」读成了「坏掉了」。",
+      en: "A spinner has exactly one job: rotate in place around a fixed point. Anyone who runs the page sees the wobble within half a second; shipping it is an admission that nobody ever watched the interface move. Other tells are an absence of taste — this one is an absence of looking. And it lands at the worst moment: the user has nothing to do but stare while they wait, and the most-watched element on the page is limping. ‘Loading’ reads as ‘broken’.",
+    },
+    fix: {
+      zh: "给旋转一个真正的圆心：图形画在自己盒子的正中（SVG 弧线以 viewBox 中心为圆心），transform-origin 留在 center；居中和旋转别写进同一个 transform——keyframe 会整体替换这个属性，把 translate(-50%, -50%) 顶掉——定位交给外层容器，或者用独立的 rotate 属性。改完盯着它转满一整圈再离开。",
+      en: "Give the rotation a real centre: draw the artwork centred in its own box (the SVG arc centred on the viewBox), leave transform-origin at center, and never put centering and spinning in the same transform — a keyframe replaces the whole property, clobbering the translate(-50%, -50%). Position with a wrapper (or the standalone rotate property), then watch one full revolution before moving on.",
+    },
+    detect: [
+      "@keyframes spin { transform: rotate() } over a translate(-50%,-50%)",
+      "transform-origin off centre on a spinning element",
+      "animate-spin on an emoji or off-centre SVG glyph",
+      "spinner arc not centred in its viewBox",
+    ],
+    demo: "wobbly-spinner",
+  },
 
   // ── Layout ─────────────────────────────────────────────────────────────
   {
